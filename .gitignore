@@ -1,4 +1,4 @@
-# Python
+# Python / Virtual Environments
 __pycache__/
 *.py[cod]
 *.pyo
@@ -6,38 +6,44 @@ __pycache__/
 *.so
 *.egg
 *.egg-info/
-dist/
-build/
 .eggs/
 *.egg-link
-venv/
 .venv/
+venv/
 env/
-.env
+ENV/
+
+# Database / Local SQLite
 *.db
+*.sqlite
 *.sqlite3
+api_sentinel.db
 
 # Node / Frontend
 node_modules/
 dist/
+build/
 .parcel-cache/
 .next/
 out/
 .nuxt/
 
-# Environment
+# Environment Configuration
 .env
 .env.local
 .env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
 
-# IDEs
+# IDEs & System Files
+.DS_Store
+Thumbs.db
 .idea/
 .vscode/
 *.swp
 *.swo
-.DS_Store
-Thumbs.db
 
 # Logs
 *.log
@@ -45,40 +51,4 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-.venv/
-venv/
-env/
-
-# Python environment/config
-.env
-.env.*
-!.env.example
-
-# SQLite / local databases
-*.db
-*.sqlite
-*.sqlite3
-
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
 pnpm-debug.log*
-
-# Frontend builds
-dist/
-build/
-
-# macOS
-.DS_Store
-
-# IDE/editor
-.vscode/
-.idea/
-
-# Logs
-*.log

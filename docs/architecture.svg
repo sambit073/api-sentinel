@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 820" width="100%" height="100%" style="background-color: #0b0f19; font-family: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Card Gradients -->
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Arrow Marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4" />
+    </marker>
+  </defs>
+
+  <rect width="1000" height="820" fill="url(#bg-grad)" />
+
+  <!-- Background Grid Pattern -->
+  <g stroke="#1e293b" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4">
+    <path d="M 0 50 H 1000 M 0 100 H 1000 M 0 150 H 1000 M 0 200 H 1000 M 0 250 H 1000 M 0 300 H 1000 M 0 350 H 1000 M 0 400 H 1000 M 0 450 H 1000 M 0 500 H 1000 M 0 550 H 1000 M 0 600 H 1000 M 0 650 H 1000 M 0 700 H 1000 M 0 750 H 1000" />
+    <path d="M 50 0 V 820 M 100 0 V 820 M 150 0 V 820 M 200 0 V 820 M 250 0 V 820 M 300 0 V 820 M 350 0 V 820 M 400 0 V 820 M 450 0 V 820 M 500 0 V 820 M 550 0 V 820 M 600 0 V 820 M 650 0 V 820 M 700 0 V 820 M 750 0 V 820 M 800 0 V 820 M 850 0 V 820 M 900 0 V 820 M 950 0 V 820" />
+  </g>
+
+  <!-- TITLE HEADER -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="0" fill="#38bdf8" font-size="18" font-weight="bold" letter-spacing="2">API SENTINEL — SYSTEM ARCHITECTURE</text>
+    <text x="0" y="20" fill="#64748b" font-size="11">Real-Time Inspection, Modular Detection, Risk Scoring &amp; Automated Policy Engine</text>
+  </g>
+
+  <!-- PIPELINE STAGES -->
+
+  <!-- 1. INGESTION LAYER -->
+  <g transform="translate(40, 85)">
+    <rect x="0" y="0" width="920" height="75" rx="8" fill="url(#card-grad)" stroke="#0284c7" stroke-width="1.5" />
+    <rect x="0" y="0" width="180" height="24" rx="4" fill="#0284c7" />
+    <text x="10" y="16" fill="#ffffff" font-size="10" font-weight="bold" letter-spacing="1">1. REQUEST INGESTION</text>
+
+    <!-- Flow items inside ingestion -->
+    <g transform="translate(30, 34)">
+      <rect x="0" y="0" width="160" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+      <text x="80" y="18" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">HTTP API Request</text>
+    </g>
+
+    <line x1="200" y1="48" x2="250" y2="48" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+
+    <g transform="translate(260, 31)">
+      <rect x="0" y="0" width="630" height="34" rx="5" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="15" y="21" fill="#38bdf8" font-size="11" font-weight="bold">FastAPI Request Collector</text>
+      <text x="210" y="21" fill="#94a3b8" font-size="10" font-mono="true">Extracts Method, Path, Source IP, Client ID, Headers, Params &amp; Payload</text>
+    </g>
+  </g>
+
+  <!-- Connector Line 1 to 2 -->
+  <line x1="500" y1="160" x2="500" y2="185" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- 2. DETECTION ENGINE LAYER -->
+  <g transform="translate(40, 190)">
+    <rect x="0" y="0" width="920" height="175" rx="8" fill="url(#card-grad)" stroke="#8b5cf6" stroke-width="1.5" />
+    <rect x="0" y="0" width="180" height="24" rx="4" fill="#8b5cf6" />
+    <text x="10" y="16" fill="#ffffff" font-size="10" font-weight="bold" letter-spacing="1">2. DETECTION ENGINE</text>
+    <text x="200" y="16" fill="#94a3b8" font-size="10">Independent Modular Detectors (BaseDetector Interface)</text>
+
+    <!-- 5 Detector Cards -->
+    <!-- Detector 1: Auth -->
+    <g transform="translate(15, 38)">
+      <rect x="0" y="0" width="168" height="118" rx="6" fill="#0f172a" stroke="#eab308" stroke-width="1.2" />
+      <rect x="0" y="0" width="168" height="22" rx="4" fill="#eab308" opacity="0.2" />
+      <text x="10" y="15" fill="#eab308" font-size="10" font-weight="bold">Broken Authentication</text>
+      <text x="10" y="38" fill="#94a3b8" font-size="9" font-mono="true">authentication.py</text>
+      <text x="10" y="56" fill="#cbd5e1" font-size="9">• Missing/bad token</text>
+      <text x="10" y="70" fill="#cbd5e1" font-size="9">• Weak credentials</text>
+      <text x="10" y="84" fill="#cbd5e1" font-size="9">• Auth failure spikes</text>
+    </g>
+
+    <!-- Detector 2: BOLA -->
+    <g transform="translate(196, 38)">
+      <rect x="0" y="0" width="168" height="118" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1.2" />
+      <rect x="0" y="0" width="168" height="22" rx="4" fill="#a855f7" opacity="0.2" />
+      <text x="10" y="15" fill="#c084fc" font-size="10" font-weight="bold">BOLA / IDOR</text>
+      <text x="10" y="38" fill="#94a3b8" font-size="9" font-mono="true">bola.py</text>
+      <text x="10" y="56" fill="#cbd5e1" font-size="9">• Cross-user access</text>
+      <text x="10" y="70" fill="#cbd5e1" font-size="9">• Path ID enumeration</text>
+      <text x="10" y="84" fill="#cbd5e1" font-size="9">• Privilege mismatch</text>
+    </g>
+
+    <!-- Detector 3: SQL Injection -->
+    <g transform="translate(377, 38)">
+      <rect x="0" y="0" width="168" height="118" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.2" />
+      <rect x="0" y="0" width="168" height="22" rx="4" fill="#ef4444" opacity="0.2" />
+      <text x="10" y="15" fill="#f87171" font-size="10" font-weight="bold">SQL / NoSQL Injection</text>
+      <text x="10" y="38" fill="#94a3b8" font-size="9" font-mono="true">injection.py</text>
+      <text x="10" y="56" fill="#cbd5e1" font-size="9">• UNION / OR 1=1</text>
+      <text x="10" y="70" fill="#cbd5e1" font-size="9">• SQL control syntax</text>
+      <text x="10" y="84" fill="#cbd5e1" font-size="9">• NoSQL operators</text>
+    </g>
+
+    <!-- Detector 4: Rate Abuse -->
+    <g transform="translate(558, 38)">
+      <rect x="0" y="0" width="168" height="118" rx="6" fill="#0f172a" stroke="#f97316" stroke-width="1.2" />
+      <rect x="0" y="0" width="168" height="22" rx="4" fill="#f97316" opacity="0.2" />
+      <text x="10" y="15" fill="#fb923c" font-size="10" font-weight="bold">Rate Abuse / Brute Force</text>
+      <text x="10" y="38" fill="#94a3b8" font-size="9" font-mono="true">rate_abuse.py</text>
+      <text x="10" y="56" fill="#cbd5e1" font-size="9">• Sliding window track</text>
+      <text x="10" y="70" fill="#cbd5e1" font-size="9">• IP + endpoint rate</text>
+      <text x="10" y="84" fill="#cbd5e1" font-size="9">• Repeated auth fails</text>
+    </g>
+
+    <!-- Detector 5: Sensitive Data -->
+    <g transform="translate(739, 38)">
+      <rect x="0" y="0" width="168" height="118" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="1.2" />
+      <rect x="0" y="0" width="168" height="22" rx="4" fill="#06b6d4" opacity="0.2" />
+      <text x="10" y="15" fill="#22d3ee" font-size="10" font-weight="bold">Sensitive Data Exposure</text>
+      <text x="10" y="38" fill="#94a3b8" font-size="9" font-mono="true">sensitive_data.py</text>
+      <text x="10" y="56" fill="#cbd5e1" font-size="9">• PII patterns (SSN/CC)</text>
+      <text x="10" y="70" fill="#cbd5e1" font-size="9">• Sensitive field names</text>
+      <text x="10" y="84" fill="#cbd5e1" font-size="9">• Sensitive endpoints</text>
+    </g>
+  </g>
+
+  <!-- Connector Line 2 to 3 -->
+  <line x1="500" y1="365" x2="500" y2="390" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="420" y="370" width="160" height="16" rx="3" fill="#0f172a" stroke="#64748b" stroke-width="0.8" />
+  <text x="500" y="381" fill="#94a3b8" font-size="9" text-anchor="middle">Threat Classification &amp; Findings</text>
+
+  <!-- 3. RISK ENGINE & AUTOMATED RESPONSE LAYER -->
+  <g transform="translate(40, 395)">
+    <rect x="0" y="0" width="920" height="175" rx="8" fill="url(#card-grad)" stroke="#f59e0b" stroke-width="1.5" />
+    
+    <!-- Left: Risk Engine -->
+    <g transform="translate(15, 15)">
+      <rect x="0" y="0" width="435" height="145" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
+      <rect x="0" y="0" width="435" height="24" rx="4" fill="#f59e0b" opacity="0.2" />
+      <text x="10" y="16" fill="#fbbf24" font-size="10" font-weight="bold">3. RISK SCORING ENGINE (risk_engine.py)</text>
+      
+      <text x="15" y="42" fill="#cbd5e1" font-size="10">• Applies Threat Category Weight Multipliers (BOLA 1.0, SQLi 0.95, Rate 0.92)</text>
+      <text x="15" y="58" fill="#cbd5e1" font-size="10">• Computes Normalized Risk Score: 0 – 100</text>
+      
+      <!-- Severity Scale Badges -->
+      <g transform="translate(15, 75)">
+        <rect x="0" y="0" width="90" height="50" rx="4" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="0.8" />
+        <text x="45" y="20" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">LOW</text>
+        <text x="45" y="38" fill="#86efac" font-size="9" text-anchor="middle">Score 0–29</text>
+
+        <rect x="100" y="0" width="90" height="50" rx="4" fill="#eab308" opacity="0.15" stroke="#eab308" stroke-width="0.8" />
+        <text x="145" y="20" fill="#fde047" font-size="10" font-weight="bold" text-anchor="middle">MEDIUM</text>
+        <text x="145" y="38" fill="#fef08a" font-size="9" text-anchor="middle">Score 30–59</text>
+
+        <rect x="200" y="0" width="90" height="50" rx="4" fill="#f97316" opacity="0.15" stroke="#f97316" stroke-width="0.8" />
+        <text x="245" y="20" fill="#fb923c" font-size="10" font-weight="bold" text-anchor="middle">HIGH</text>
+        <text x="245" y="38" fill="#fed7aa" font-size="9" text-anchor="middle">Score 60–79</text>
+
+        <rect x="300" y="0" width="90" height="50" rx="4" fill="#ef4444" opacity="0.15" stroke="#ef4444" stroke-width="0.8" />
+        <text x="345" y="20" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">CRITICAL</text>
+        <text x="345" y="38" fill="#fca5a5" font-size="9" text-anchor="middle">Score 80–100</text>
+      </g>
+    </g>
+
+    <!-- Right: Response Engine -->
+    <g transform="translate(470, 15)">
+      <rect x="0" y="0" width="435" height="145" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <rect x="0" y="0" width="435" height="24" rx="4" fill="#10b981" opacity="0.2" />
+      <text x="10" y="16" fill="#34d399" font-size="10" font-weight="bold">4. AUTOMATED RESPONSE ENGINE (response_engine.py)</text>
+
+      <text x="15" y="42" fill="#cbd5e1" font-size="10">• Decides policy action based on normalized risk score threshold</text>
+      <text x="15" y="58" fill="#cbd5e1" font-size="10">• Enforces immediate inline mitigation rules</text>
+
+      <!-- Action Badges -->
+      <g transform="translate(15, 75)">
+        <rect x="0" y="0" width="90" height="50" rx="4" fill="#22c55e" opacity="0.2" stroke="#22c55e" stroke-width="1" />
+        <text x="45" y="20" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">ALLOW</text>
+        <text x="45" y="38" fill="#94a3b8" font-size="9" text-anchor="middle">Score &lt; 30</text>
+
+        <rect x="100" y="0" width="90" height="50" rx="4" fill="#eab308" opacity="0.2" stroke="#eab308" stroke-width="1" />
+        <text x="145" y="20" fill="#fde047" font-size="10" font-weight="bold" text-anchor="middle">MONITOR</text>
+        <text x="145" y="38" fill="#94a3b8" font-size="9" text-anchor="middle">Score 30–59</text>
+
+        <rect x="200" y="0" width="90" height="50" rx="4" fill="#f97316" opacity="0.2" stroke="#f97316" stroke-width="1" />
+        <text x="245" y="20" fill="#fb923c" font-size="10" font-weight="bold" text-anchor="middle">CHALLENGE</text>
+        <text x="245" y="38" fill="#94a3b8" font-size="9" text-anchor="middle">Score 60–79</text>
+
+        <rect x="300" y="0" width="90" height="50" rx="4" fill="#ef4444" opacity="0.2" stroke="#ef4444" stroke-width="1" />
+        <text x="345" y="20" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">BLOCK</text>
+        <text x="345" y="38" fill="#94a3b8" font-size="9" text-anchor="middle">Score ≥ 80</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connector Line 3 to 4 -->
+  <line x1="250" y1="570" x2="250" y2="595" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="750" y1="570" x2="750" y2="595" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- 4. PERSISTENCE & DASHBOARD VISUALIZATION LAYER -->
+  <g transform="translate(40, 600)">
+    <!-- Left: SQLite Persistence -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="435" height="175" rx="8" fill="url(#card-grad)" stroke="#3b82f6" stroke-width="1.5" />
+      <rect x="0" y="0" width="435" height="24" rx="4" fill="#3b82f6" opacity="0.2" />
+      <text x="10" y="16" fill="#60a5fa" font-size="10" font-weight="bold">5. PERSISTENCE LAYER (SQLite - api_sentinel.db)</text>
+
+      <!-- Tables inside DB -->
+      <g transform="translate(15, 38)">
+        <rect x="0" y="0" width="125" height="115" rx="5" fill="#0f172a" stroke="#3b82f6" stroke-width="1" />
+        <text x="10" y="16" fill="#93c5fd" font-size="10" font-weight="bold">ApiRequest</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• method, path</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• source_ip</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• client_id</text>
+        <text x="10" y="76" fill="#94a3b8" font-size="9">• risk_score</text>
+        <text x="10" y="90" fill="#94a3b8" font-size="9">• severity, action</text>
+      </g>
+
+      <g transform="translate(155, 38)">
+        <rect x="0" y="0" width="125" height="115" rx="5" fill="#0f172a" stroke="#3b82f6" stroke-width="1" />
+        <text x="10" y="16" fill="#93c5fd" font-size="10" font-weight="bold">SecurityEvent</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• threat_type</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• severity, risk</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• reason text</text>
+        <text x="10" y="76" fill="#94a3b8" font-size="9">• evidence JSON</text>
+        <text x="10" y="90" fill="#94a3b8" font-size="9">• remediation</text>
+      </g>
+
+      <g transform="translate(295, 38)">
+        <rect x="0" y="0" width="125" height="115" rx="5" fill="#0f172a" stroke="#3b82f6" stroke-width="1" />
+        <text x="10" y="16" fill="#93c5fd" font-size="10" font-weight="bold">Endpoint</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• path, methods</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• total_requests</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• threat_count</text>
+        <text x="10" y="76" fill="#94a3b8" font-size="9">• avg_risk_score</text>
+        <text x="10" y="90" fill="#94a3b8" font-size="9">• security_status</text>
+      </g>
+    </g>
+
+    <!-- Connector DB to Frontend -->
+    <line x1="435" y1="88" x2="470" y2="88" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow)" />
+
+    <!-- Right: React SOC Dashboard -->
+    <g transform="translate(470, 0)">
+      <rect x="0" y="0" width="435" height="175" rx="8" fill="url(#card-grad)" stroke="#06b6d4" stroke-width="1.5" />
+      <rect x="0" y="0" width="435" height="24" rx="4" fill="#06b6d4" opacity="0.2" />
+      <text x="10" y="16" fill="#22d3ee" font-size="10" font-weight="bold">6. REACT SECURITY DASHBOARD &amp; SIMULATOR</text>
+
+      <!-- Clean 2x2 Grid of Dashboard Items -->
+      <g transform="translate(14, 34)">
+        <!-- Item 1: Security Dashboard -->
+        <g transform="translate(0, 0)">
+          <rect x="0" y="0" width="198" height="60" rx="5" fill="#0f172a" stroke="#06b6d4" stroke-width="0.8" />
+          <text x="10" y="17" fill="#38bdf8" font-size="10" font-weight="bold">Security Dashboard</text>
+          <text x="10" y="34" fill="#94a3b8" font-size="8.5">Overview, traffic, threats,</text>
+          <text x="10" y="47" fill="#94a3b8" font-size="8.5">security score</text>
+        </g>
+
+        <!-- Item 2: Attack Simulator -->
+        <g transform="translate(208, 0)">
+          <rect x="0" y="0" width="198" height="60" rx="5" fill="#0f172a" stroke="#06b6d4" stroke-width="0.8" />
+          <text x="10" y="17" fill="#38bdf8" font-size="10" font-weight="bold">Attack Simulator</text>
+          <text x="10" y="33" fill="#94a3b8" font-size="8">BOLA, SQL Injection, Brute Force,</text>
+          <text x="10" y="46" fill="#94a3b8" font-size="8">Broken Auth, Sensitive Data, Normal</text>
+        </g>
+
+        <!-- Item 3: Threat Investigation -->
+        <g transform="translate(0, 68)">
+          <rect x="0" y="0" width="198" height="60" rx="5" fill="#0f172a" stroke="#06b6d4" stroke-width="0.8" />
+          <text x="10" y="17" fill="#38bdf8" font-size="10" font-weight="bold">Threat Investigation</text>
+          <text x="10" y="34" fill="#94a3b8" font-size="8.5">Evidence, risk score, severity,</text>
+          <text x="10" y="47" fill="#94a3b8" font-size="8.5">response action</text>
+        </g>
+
+        <!-- Item 4: Live Traffic -->
+        <g transform="translate(208, 68)">
+          <rect x="0" y="0" width="198" height="60" rx="5" fill="#0f172a" stroke="#06b6d4" stroke-width="0.8" />
+          <text x="10" y="17" fill="#38bdf8" font-size="10" font-weight="bold">Live Traffic</text>
+          <text x="10" y="34" fill="#94a3b8" font-size="8.5">Requests, endpoints, source IPs,</text>
+          <text x="10" y="47" fill="#94a3b8" font-size="8.5">detection results</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

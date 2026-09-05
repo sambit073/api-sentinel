@@ -1,247 +1,279 @@
 # API Sentinel
 
-API Security Detection, Risk Scoring, and Automated Response Platform — built for a cybersecurity hackathon demonstration.
+> **API Security Detection, Risk Scoring, and Automated Response Platform** — Built for a cybersecurity hackathon demonstration.
+
+![API Sentinel Dashboard](docs/screenshots/dashboard.png)
 
 ---
 
-## Problem
+## 1. Title
+**API Sentinel** — Real-Time API Threat Detection & Response Platform
 
-Modern APIs are the primary attack surface for web applications, yet most organisations lack real-time visibility into malicious API traffic. Threats such as BOLA/IDOR, SQL injection, brute-force attacks, broken authentication, and sensitive data exposure are routinely missed until after a breach.
+## 2. Description
+An end-to-end API security platform that inspects live API traffic, detects threat vectors, calculates real-time risk scores, and triggers automated policy actions.
 
-## Solution
-
-API Sentinel is a full-stack security platform that:
-
-1. Collects and analyses API request traffic in real time.
-2. Runs each request through a modular detection engine covering the top API threat categories.
-3. Calculates a risk score (0–100) via a centralised risk engine.
-4. Decides an automated response action (ALLOW / MONITOR / CHALLENGE / BLOCK).
-5. Presents findings on a professional SOC-style security dashboard.
-6. Provides an interactive attack simulator for live demonstrations.
+## 3. Key Features
+- **Real-Time Traffic Inspection:** Monitors HTTP methods, endpoints, headers, query parameters, payloads, and client identifiers.
+- **Modular Threat Detectors:** 5 independent detection modules covering top OWASP API security risks.
+- **Centralized Risk Scoring Engine:** Normalizes threat confidence into a unified 0–100 risk score and severity level.
+- **Automated Response Engine:** Executes policy actions (`ALLOW`, `MONITOR`, `CHALLENGE`, `BLOCK`) dynamically.
+- **Interactive Attack Simulator:** On-demand execution of real attack vectors with structured "Why Was This Detected?" evidence breakdowns.
+- **SOC-Style Security Dashboard:** Dark-mode cybersecurity interface featuring traffic charts, endpoint health posture, grouped incident feeds, and threat investigation drawers.
 
 ---
 
-## Architecture
+## 4. Problem
+Modern applications heavily rely on APIs, making them the primary attack surface for web security breaches. Organizations often lack real-time visibility into API traffic anomalies, leaving critical vulnerabilities like Broken Object Level Authorization (BOLA), SQL Injection, Brute Force attacks, Broken Authentication, and Sensitive Data Exposure undetected until after exfiltration occurs.
+
+---
+
+## 5. Solution
+API Sentinel provides an inline security evaluation pipeline that analyzes incoming API requests, scores their threat level, triggers automated mitigation, and visualizes security posture on a SOC dashboard — eliminating manual log parsing and enabling immediate automated response.
+
+---
+
+## 6. Architecture
+
+![API Sentinel Architecture](docs/architecture.svg)
 
 ```
 API Request
     ↓
-Request Collector (FastAPI endpoint)
+Request Collector (FastAPI Endpoint)
     ↓
-Detection Engine (5 independent modules)
+Detection Engine (5 Independent Detector Modules)
     ↓
 Threat Classification
     ↓
-Risk Scoring Engine  ──→  0–100 score + severity
+Risk Scoring Engine ──────→ 0–100 Score + Severity Rating
     ↓
-Response Engine      ──→  ALLOW / MONITOR / CHALLENGE / BLOCK
+Response Engine     ──────→ ALLOW / MONITOR / CHALLENGE / BLOCK
     ↓
-SQLite persistence
+SQLite Persistence
     ↓
-React Dashboard
+React SOC Dashboard & Attack Simulator
 ```
 
-### Detection Modules
+---
 
-| Module | Threat |
-|--------|--------|
-| `authentication.py` | Broken Authentication — missing/malformed tokens, weak credentials, auth failures |
-| `bola.py` | BOLA / IDOR — cross-user resource access, path ID enumeration |
-| `injection.py` | SQL / NoSQL Injection — pattern matching on params and body |
-| `rate_abuse.py` | Rate Abuse / Brute Force — sliding-window request counter per IP+endpoint |
-| `sensitive_data.py` | Sensitive Data Exposure — PII patterns, sensitive field names |
+## 7. Detection Modules
 
-Each detector implements `BaseDetector` and is completely independent — detectors can be added, removed, or modified without touching other modules.
+Each detection module inherits from a clean `BaseDetector` interface and evaluates requests independently:
 
-### Risk Engine
-
-- Accepts a `DetectionResult` from any detector.
-- Applies threat-category weight multipliers.
-- Returns a normalised score (0–100) and severity label.
-
-### Response Engine
-
-- Reads only the final risk score.
-- BLOCK ≥ 80 · CHALLENGE ≥ 60 · MONITOR ≥ 30 · ALLOW < 30
+| Detector Module | Target Threat Category | Key Detection Logic |
+|:---|:---|:---|
+| `authentication.py` | **Broken Authentication** | Detects missing/malformed bearer tokens, weak default credentials, and authentication failure spikes. |
+| `bola.py` | **BOLA / IDOR** | Identifies cross-user resource access attempts, path ID enumeration, and privilege mismatches. |
+| `injection.py` | **SQL / NoSQL Injection** | Performs regex pattern matching for SQL syntax, control characters (`UNION`, `OR 1=1`, `--`), and NoSQL operators. |
+| `rate_abuse.py` | **Rate Abuse / Brute Force** | Tracks request velocity per IP and endpoint using an in-memory sliding window counter. |
+| `sensitive_data.py` | **Sensitive Data Exposure** | Scans request payloads and parameters for PII patterns (SSN, Credit Cards) and exposed sensitive field names. |
 
 ---
 
-## Tech Stack
+## 8. Risk Scoring
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, Vite 5, Tailwind CSS 3, React Router 6, Recharts 2, Lucide React |
-| Backend | Python 3.11+, FastAPI, Uvicorn, Pydantic v2, SQLAlchemy 2 |
-| Database | SQLite (file-based, auto-initialised) |
+The Centralized Risk Engine calculates a normalized **0–100 Risk Score** based on detector confidence and threat category weights:
+
+$$\text{Risk Score} = \text{Base Risk} \times \text{Threat Weight}$$
+
+| Score Range | Severity Level |
+|:---|:---|
+| **80 – 100** | **CRITICAL** |
+| **60 – 79** | **HIGH** |
+| **30 – 59** | **MEDIUM** |
+| **0 – 29** | **LOW** |
 
 ---
 
-## Folder Structure
+## 9. Automated Response
+
+The Response Engine maps the calculated Risk Score directly to an automated policy action:
+
+| Action | Score Threshold | System Behavior |
+|:---|:---|:---|
+| `BLOCK` | **≥ 80** | Request is actively blocked and connection terminated. |
+| `CHALLENGE` | **60 – 79** | Requires step-up authentication or CAPTCHA verification. |
+| `MONITOR` | **30 – 59** | Request proceeds but is flagged for heightened security logging. |
+| `ALLOW` | **< 30** | Request passes cleanly without intervention. |
+
+---
+
+## 10. Attack Simulator
+The Attack Simulator enables judges and testers to fire real-world attack scenarios against the live detection pipeline with a single click.
+
+![Attack Simulator](docs/screenshots/simulator.png)
+
+Features:
+- **Real Pipeline Execution:** Runs the exact same detection, risk, and response code as live production traffic.
+- **Detection Decision Summary:** Displays a structured *"WHY WAS THIS DETECTED?"* breakdown highlighting exact evidence, window sizes, threshold metrics, and payloads.
+- **Instant Persistence:** Simulated attacks are saved to SQLite and immediately update dashboard charts, endpoint posture scores, and incident feeds.
+
+---
+
+## 11. Dashboard
+Designed with a modern SOC aesthetic:
+
+![Threat Investigation](docs/screenshots/threats.png)
+
+- **Overview Page:** Real-time protection status, 24h request/threat area chart, severity pie chart, threat type breakdown, recent events feed, and an interactive *"Why this score?"* factor breakdown.
+- **Live Traffic Page:** High-density filterable request stream with live auto-refresh toggle.
+- **Threats Page:** Threat investigation table that automatically groups repeated Rate Abuse / Brute Force bursts into single consolidated incidents with full drill-down investigation drawers.
+- **Endpoints Page:** Complete API catalog listing request volume, threat counts, average risk score, and health status (`HEALTHY`, `AT_RISK`, `CRITICAL`).
+
+---
+
+## 12. Test Results
+
+Verified automated scenario test results across all six simulator scenarios:
+
+| Scenario | Detection | Risk | Severity | Action |
+|---|---|---:|---|---|
+| BOLA | BOLA | 76.0 | HIGH | CHALLENGE |
+| SQL Injection | SQL_INJECTION | 85.5 | CRITICAL | BLOCK |
+| Brute Force | RATE_ABUSE | 84.6 | CRITICAL | BLOCK |
+| Broken Authentication | BROKEN_AUTH | 31.9 | MEDIUM | MONITOR |
+| Sensitive Data | SENSITIVE_DATA | 64.0 | HIGH | CHALLENGE |
+| Normal Request | NONE | 0.0 | LOW | ALLOW |
+
+---
+
+## 13. Tech Stack
+
+- **Frontend:** React 18, Vite 5, Tailwind CSS 3, React Router 6, Recharts 2, Lucide React
+- **Backend:** Python 3.11+, FastAPI, Uvicorn, Pydantic v2, SQLAlchemy 2
+- **Database:** SQLite (file-based, auto-initialized)
+
+---
+
+## 14. Project Structure
 
 ```
 api-sentinel/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py               # FastAPI app, lifespan, CORS
-│   │   ├── config.py             # Settings (env-driven)
+│   │   ├── main.py               # FastAPI app entrypoint & lifespan
+│   │   ├── config.py             # App environment configuration
 │   │   ├── api/
-│   │   │   └── routes.py         # All 7 REST endpoints
+│   │   │   └── routes.py         # REST API route handlers
 │   │   ├── database/
-│   │   │   ├── connection.py     # SQLAlchemy engine + session
-│   │   │   └── seed.py           # Demo data seeder (~170 records)
+│   │   │   ├── connection.py     # SQLAlchemy engine setup
+│   │   │   └── seed.py           # Demo dataset seeder (~170 records)
 │   │   ├── models/
-│   │   │   └── models.py         # ApiRequest, SecurityEvent, Endpoint
+│   │   │   └── models.py         # ORM models (ApiRequest, SecurityEvent, Endpoint)
 │   │   ├── schemas/
-│   │   │   └── schemas.py        # Pydantic request/response schemas
+│   │   │   └── schemas.py        # Pydantic validation schemas
 │   │   ├── services/
-│   │   │   ├── detection/
-│   │   │   │   ├── base.py
-│   │   │   │   ├── authentication.py
-│   │   │   │   ├── bola.py
-│   │   │   │   ├── injection.py
-│   │   │   │   ├── rate_abuse.py
-│   │   │   │   └── sensitive_data.py
-│   │   │   ├── risk_engine.py
-│   │   │   └── response_engine.py
+│   │   │   ├── detection/        # Independent detector modules
+│   │   │   ├── risk_engine.py    # Risk scoring engine
+│   │   │   └── response_engine.py# Policy decision engine
 │   │   └── utils/
-│   ├── requirements.txt
-│   └── .venv/                    # created by setup
+│   └── requirements.txt
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx               # Sidebar layout + routing
+│   │   ├── App.jsx               # Navigation layout & routing
 │   │   ├── main.jsx
-│   │   ├── index.css             # Tailwind + global styles
-│   │   ├── config/api.js         # Backend URL config
-│   │   ├── services/api.js       # API client
-│   │   ├── components/ui.jsx     # Shared UI primitives
+│   │   ├── index.css             # Tailwind & custom dark theme styles
+│   │   ├── config/api.js         # API base URL configuration
+│   │   ├── services/api.js       # API client wrapper
+│   │   ├── components/ui.jsx     # Shared UI components & badges
 │   │   └── pages/
-│   │       ├── Overview.jsx
-│   │       ├── LiveTraffic.jsx
-│   │       ├── Threats.jsx
-│   │       ├── Endpoints.jsx
-│   │       └── Simulator.jsx
+│   │       ├── Overview.jsx      # SOC overview dashboard
+│   │       ├── LiveTraffic.jsx   # Live request log table
+│   │       ├── Threats.jsx       # Threat investigation & grouped incidents
+│   │       ├── Endpoints.jsx     # API endpoint health posture
+│   │       └── Simulator.jsx     # Interactive attack simulator
 │   ├── package.json
 │   ├── vite.config.js
 │   ├── tailwind.config.js
 │   └── .env.example
+├── docs/screenshots/             # Screenshot assets placeholder directory
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Setup
+## 15. Setup
 
 ### Prerequisites
+- Python 3.11+
+- Node.js 18+
 
-- Python 3.11 or higher
-- Node.js 18 or higher
-
-### Backend
-
+### 1. Backend Setup
 ```bash
-cd api-sentinel/backend
+cd backend
 
-# Create virtual environment
+# Create & activate virtual environment
 python3 -m venv .venv
-source .venv/bin/activate       # Windows: .venv\Scripts\activate
+source .venv/bin/activate    # On Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Start server (database is created and seeded automatically)
+# Launch FastAPI server (database is created and seeded automatically on first startup)
 uvicorn app.main:app --reload --port 8000
 ```
+- API Base URL: `http://localhost:8000`
+- Interactive Swagger Docs: `http://localhost:8000/docs`
 
-The API will be available at `http://localhost:8000`.  
-Interactive docs: `http://localhost:8000/docs`
-
-### Frontend
-
+### 2. Frontend Setup
 ```bash
-cd api-sentinel/frontend
-
-# Copy env file (optional — defaults to localhost:8000)
-cp .env.example .env
+cd frontend
 
 # Install dependencies
 npm install
 
-# Start dev server
+# Start Vite dev server
 npm run dev
 ```
-
-The dashboard will be available at `http://localhost:5173`.
-
----
-
-## API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/health` | Service health check |
-| GET | `/api/dashboard/summary` | Stats, charts, recent events |
-| GET | `/api/requests` | All API requests (filterable) |
-| GET | `/api/threats` | Security events (filterable) |
-| GET | `/api/threats/{id}` | Single threat detail |
-| GET | `/api/endpoints` | Endpoint security posture |
-| POST | `/api/simulate` | Run an attack simulation scenario |
-| POST | `/api/analyze` | Analyse an arbitrary request |
-
-### Simulate Scenarios
-
-```bash
-curl -X POST http://localhost:8000/api/simulate \
-  -H "Content-Type: application/json" \
-  -d '{"scenario": "BOLA"}'
-```
-
-Valid scenarios: `BOLA`, `SQL_INJECTION`, `BRUTE_FORCE`, `BROKEN_AUTH`, `SENSITIVE_DATA`, `NORMAL`
+- Dashboard URL: `http://localhost:5173`
 
 ---
 
-## Risk Scoring
+## 16. API Endpoints
 
-| Range | Severity | Action |
-|-------|----------|--------|
-| 80–100 | CRITICAL | BLOCK |
-| 60–79 | HIGH | CHALLENGE |
-| 30–59 | MEDIUM | MONITOR |
-| 0–29 | LOW | ALLOW |
-
----
-
-## Attack Simulator
-
-The Attack Simulator page sends pre-defined payloads to the backend, runs them through the full detection pipeline, and displays:
-
-- Threat type detected
-- Risk score and severity
-- Action taken
-- Detection reason
-- Evidence captured
-- Recommended remediation
-
-All simulated requests are stored in the database and appear in the Live Traffic, Threats, and Overview pages, so dashboard data updates in real time during a demonstration.
+| Method | Endpoint | Description |
+|:---|:---|:---|
+| `GET` | `/api/health` | Health check endpoint |
+| `GET` | `/api/dashboard/summary` | Aggregated dashboard statistics, charts & score factors |
+| `GET` | `/api/requests` | Filterable API request log stream |
+| `GET` | `/api/threats` | Filterable security threat events |
+| `GET` | `/api/threats/{id}` | Detailed threat evidence & remediation |
+| `GET` | `/api/endpoints` | API endpoint health posture catalog |
+| `POST` | `/api/simulate` | Executes attack simulation payload |
+| `POST` | `/api/analyze` | Analyzes an arbitrary HTTP request payload |
 
 ---
 
-## Seeded Demo Data
+## 17. Demo Scenarios
 
-On first startup the backend seeds approximately 170 requests:
-
-- 80 normal requests
-- 25 BOLA/IDOR attempts
-- 20 SQL injection attempts
-- 20 brute-force / rate-abuse events
-- 15 broken authentication events
-- 10 sensitive data exposure events
+Supported test scenarios for `/api/simulate`:
+1. `BOLA` — Cross-user ID access attempt
+2. `SQL_INJECTION` — Malicious SQL payload in query string
+3. `BRUTE_FORCE` — 15 rapid authentication failures from single IP
+4. `BROKEN_AUTH` — Missing/malformed bearer token on protected route
+5. `SENSITIVE_DATA` — Raw SSN / Credit Card transmission
+6. `NORMAL` — Legitimate GET request
 
 ---
 
-## Notes
+## 18. Seeded Demo Data
+On initial backend startup, SQLite is automatically seeded with approximately 170 realistic API request records and 90 security events, providing immediate data for dashboard charts and metrics upon launch.
 
-- No external APIs are required — all data is simulated locally.
-- No authentication is implemented (prototype scope).
-- The rate-abuse detector uses an in-process sliding window; a production system would use Redis.
-- The SQLite database file (`api_sentinel.db`) is created in the `backend/` directory.
+---
+
+## 19. Future Scope
+- **Redis-Backed Distributed Rate Limiting:** Replace in-memory sliding window with Redis cluster storage for multi-region deployment.
+- **Authentication & RBAC:** Implement JWT user authentication and role-based access control for SOC analysts.
+- **ML / Behavioral Anomaly Detection:** Incorporate unsupervised machine learning models to detect zero-day API abuse patterns.
+- **API Gateway Integration:** Deploy as an inline proxy middleware for Kong, AWS API Gateway, or Envoy.
+- **Persistent Production Database:** Migrate storage backend from SQLite to PostgreSQL / TimescaleDB.
+- **SIEM / SOC Integrations:** Add webhooks and native connectors for Slack, PagerDuty, Datadog, and Splunk alerting.
+
+---
+
+## 20. Limitations / Notes
+- Designed as a functional prototype for hackathon demonstration.
+- Simulated API traffic is generated locally without external network dependencies.
+- Rate Abuse tracking uses an in-process sliding window reset on server restart.
+- Data persistence utilizes a local SQLite database (`backend/api_sentinel.db`).
