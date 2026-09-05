@@ -5,7 +5,11 @@ class Settings(BaseSettings):
     app_name: str = "API Sentinel"
     debug: bool = False
     database_url: str = "sqlite:///./api_sentinel.db"
-    cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origins: list[str] = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://api-sentinel-frontend.onrender.com",
+    ]
 
     class Config:
         env_file = ".env"
